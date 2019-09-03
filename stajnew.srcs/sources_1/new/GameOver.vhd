@@ -68,6 +68,8 @@ begin
             else
                 s_drawGameOver <= '0'; 
             end if;
+        else
+            s_drawGameOver <= '0';
         end if;    
     end if;
 end process;

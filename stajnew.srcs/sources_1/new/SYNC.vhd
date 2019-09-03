@@ -150,40 +150,36 @@ colusion_controling : process (CLK, reset)
         s_drawGameOver <= '0';
         s_gameOver <= '0';
     elsif rising_edge(CLK) then
-       if ((drawMain = '1' and DrawSM = '1') or (drawMain = '1' and DrawSR = '1') or (drawMain = '1' and DrawSL = '1')) then
-            s_GameOver <= '1';
-            colB <= '0';
-            colG <= '0';
-            colP <= '0';
-            colY <= '0';
-        end if;
-        if ((drawMain = '1' and DrawBallRB = '1') or (drawMain = '1' and DrawBallMB = '1') or (drawMain = '1' and DrawBallLB = '1')) then
-            s_GameOver <= '0';
-            colB <= '1';
-            colG <= '0';
-            colP <= '0';
-            colY <= '0';
-        end if;
-        if ((drawMain = '1' and DrawBallRG = '1') or (drawMain = '1' and DrawBallMG = '1') or (drawMain = '1' and DrawBallLG = '1')) then
-            s_GameOver <= '0';
-            colB <= '0';
-            colG <= '1';
-            colP <= '0'; 
-            colY <= '0';
-        end if;
-        if ((drawMain = '1' and DrawBallRP = '1') or (drawMain = '1' and DrawBallMP = '1') or (drawMain = '1' and DrawBallLP = '1')) then
-            s_GameOver <= '0';
-            colB <= '0';
-            colG <= '0';
-            colP <= '1';
-            colY <= '0';
-        end if;
-        if ((drawMain = '1' and DrawBallRY = '1') or (drawMain = '1' and DrawBallMY = '1') or (drawMain = '1' and DrawBallLY = '1')) then
-            s_GameOver <= '0';
-            colB <= '0';
-            colG <= '0';
-            colP <= '0';
-            colY <= '1';
+            if (drawMain = '1' and (DrawSM = '1' or DrawSR = '1' or DrawSL = '1')) then
+                s_GameOver <= '1';
+                colB <= '0';
+                colG <= '0';
+                colP <= '0';
+                colY <= '0';
+            elsif (drawMain = '1' and (DrawBallRB = '1' or DrawBallMB = '1' or DrawBallLB = '1'))then
+                s_GameOver <= '0';
+                colB <= '1';
+                colG <= '0';
+                colP <= '0';
+                colY <= '0';
+            elsif (drawMain = '1' and (DrawBallRG = '1' or DrawBallMG = '1' or DrawBallLG = '1')) then
+                s_GameOver <= '0';
+                colB <= '0';
+                colG <= '1';
+                colP <= '0'; 
+                colY <= '0';      
+            elsif (drawMain = '1' and (DrawBallRP = '1' or DrawBallMP = '1' or DrawBallLP = '1')) then
+                s_GameOver <= '0';
+                colB <= '0';
+                colG <= '0';
+                colP <= '1';
+                colY <= '0';
+            elsif (drawMain = '1' and (DrawBallRY = '1' or DrawBallMY = '1' or DrawBallLY = '1')) then
+                s_GameOver <= '0';
+                colB <= '0';
+                colG <= '0';
+                colP <= '0';
+                colY <= '1';
         end if; 
     end if; 
     end process;
