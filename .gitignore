@@ -1,0 +1,10 @@
+.Xil
+stajnew.cache
+stajnew.hw
+stajnew.ip_user_files
+stajnew.runs
+stajnew.sim
+*.jou
+vivado
+ip
+
