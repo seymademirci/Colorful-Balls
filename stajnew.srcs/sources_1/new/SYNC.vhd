@@ -175,7 +175,7 @@ colusion_controling : process (CLK, reset)
                 colP <= '1';
                 colY <= '0';
             elsif (drawMain = '1' and (DrawBallRY = '1' or DrawBallMY = '1' or DrawBallLY = '1')) then
-                s_GameOver <= '0';
+                s_GameOver <= '0'; 
                 colB <= '0';
                 colG <= '0';
                 colP <= '0';

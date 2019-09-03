@@ -35,14 +35,14 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 --use UNISIM.VComponents.all;
 
 entity GenericMBalls is
-    generic(Hposition    :in integer;  -- it can be -240, 0, 240
-            Vposition    :in integer);
-    Port (CLK        :in std_logic; 
-          HPOS       :in integer;
-          VPOS       :in integer;
-          FlowBall   :in integer;
+    generic(Hposition    : in integer;  -- it can be -240, 0, 240
+            Vposition    : in integer);
+    Port (CLK        : in std_logic; 
+          HPOS       : in integer;
+          VPOS       : in integer;
+          FlowBall   : in integer;
           reset      : in std_logic;
-          DrawBall   :out std_logic
+          DrawBall   : out std_logic
            );
 end GenericMBalls;
 
@@ -84,7 +84,7 @@ begin
     addra => s_addrb,
     douta => s_doutb);
 
-Balls : process( CLK )
+Balls : process(CLK, reset)
 begin
     if (reset = '1') then
         s_drawBall <= '0';

@@ -123,7 +123,8 @@ signal s_BallOrderL  : integer := 0;
 signal s_SquareOrderL: integer := 10;
 signal s_BallOrderM  : integer := 0;
 signal s_SquareOrderM: integer := 10;
-signal s_gameOverr : std_logic := '0';
+signal s_gameOverr   : std_logic := '0';
+signal s_counter     : integer := 0;
 
 component Square is 
     Generic (SquareLoc : in integer;
@@ -142,6 +143,7 @@ component GenericMBalls is
           HPOS       :in integer;
           VPOS       :in integer;
           FlowBall   :in integer;
+          reset      :in std_logic;
           DrawBall   :out std_logic
            );
 end component;
@@ -182,6 +184,7 @@ begin
     HPOS  => HPOS,
     VPOS  => VPOS,
     FlowBall => s_FlowBallRB,
+    reset => reset,
     DrawBall => DrawBallRB);
 
     BlueBallMB : GenericMBalls -- blue ball in mid lane
@@ -191,6 +194,7 @@ begin
     HPOS  => HPOS,
     VPOS  => VPOS,
     FlowBall => s_FlowBallMB,
+    reset => reset,
     DrawBall => DrawBallMB);
 
 
@@ -201,6 +205,7 @@ begin
     HPOS  => HPOS,
     VPOS  => VPOS,
     FlowBall => s_FlowBallLP,
+    reset => reset,
     DrawBall => DrawBallLB);
     ----
     GreenBallRG : GenericMBalls  -- Green ball in right lane
@@ -210,6 +215,7 @@ begin
     HPOS  => HPOS,
     VPOS  => VPOS,
     FlowBall => s_FlowBallRG,
+    reset => reset,
     DrawBall => DrawBallRG);
 
     GreenBallMG : GenericMBalls -- Green ball in mid lane
@@ -219,6 +225,7 @@ begin
     HPOS  => HPOS,
     VPOS  => VPOS,
     FlowBall => s_FlowBallMG,
+    reset => reset,
     DrawBall => DrawBallMG);
 
     GreenBallLG : GenericMBalls -- Green ball in left lane
@@ -228,6 +235,7 @@ begin
     HPOS  => HPOS,
     VPOS  => VPOS,
     FlowBall => s_FlowBallLG,
+    reset => reset,
     DrawBall => DrawBallLG);
     ---
     PinkBallRP : GenericMBalls  -- Pink ball in right lane
@@ -237,6 +245,7 @@ begin
     HPOS  => HPOS,
     VPOS  => VPOS,
     FlowBall => s_FlowBallRP,
+    reset => reset,
     DrawBall => DrawBallRP);
 
     PinkBallMP : GenericMBalls -- Pink ball in mid lane
@@ -246,6 +255,7 @@ begin
     HPOS  => HPOS,
     VPOS  => VPOS,
     FlowBall => s_FlowBallMP,
+    reset => reset,
     DrawBall => DrawBallMP);
 
 
@@ -256,6 +266,7 @@ begin
     HPOS  => HPOS,
     VPOS  => VPOS,
     FlowBall => s_FlowBallLP,
+    reset => reset,
     DrawBall => DrawBallLP);
     ---
     YellowBallRY : GenericMBalls  -- Yellow ball in right lane
@@ -265,6 +276,7 @@ begin
     HPOS  => HPOS,
     VPOS  => VPOS,
     FlowBall => s_FlowBallRY,
+    reset => reset,
     DrawBall => DrawBallRY);
 
     YellowBallMY : GenericMBalls -- Yellow ball in mid lane
@@ -274,6 +286,7 @@ begin
     HPOS  => HPOS,
     VPOS  => VPOS,
     FlowBall => s_FlowBallMY,
+    reset => reset,
     DrawBall => DrawBallMY);
 
 
@@ -284,11 +297,12 @@ begin
     HPOS  => HPOS,
     VPOS  => VPOS,
     FlowBall => s_FlowBallLY,
+    reset => reset,
     DrawBall => DrawBallLY);
 
 
-
-process (clkMB, reset) --changing location of main ball
+--------------------------------------------------------------------------------------
+MainballsLoc: process (clkMB, reset) 
 begin
     if (reset = '1') then
         s_MBCont <= 1104; -- hsp + hbp + horizon_disp/2
@@ -303,8 +317,23 @@ begin
     end if; 
 end process;
 MBCont <= s_MBCont;
+--------------------------------------------------------------------------------------
+ballsVelocity :process (clknew, reset)
+begin
+if(reset = '1') then
+    velocityvec <= 1;
+    s_counter   <= 0;
+elsif (rising_edge(clknew)) then
+    s_counter <= s_counter + 1;
+    if s_counter > 1000  then
+        s_counter <= 0;
+        velocityvec <= velocityvec + 1;
+    end if;
+end if;
+end process;
 
-process(clknew, reset) -- Flow of the balls
+---------------------------------------------------------------------------------------
+FlowofBallsRight: process(clknew, reset) 
 begin
     if(reset = '1') then
         s_FlowBallRB <= 0;
@@ -352,8 +381,8 @@ begin
     end if;
     end if;
 end process;
-
-process(clknew, reset) -- Flow of the balls
+--------------------------------------------------------------------------------------
+FlowofBallsMid : process(clknew, reset) 
 begin
     if(reset = '1') then
         s_FlowBallMB <= 0;
@@ -401,8 +430,8 @@ begin
     end if;
     end if;
 end process;
-
-process(clknew, reset) -- Flow of the balls
+--------------------------------------------------------------------------------------
+FlowofBallsLeft: process(clknew, reset) -- Flow of the balls
 begin
     if(reset = '1') then
     

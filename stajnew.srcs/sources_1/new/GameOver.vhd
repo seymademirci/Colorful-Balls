@@ -63,7 +63,7 @@ process( CLK )
 begin
     if rising_edge(clk) then
         if (gameOverr = '1')then
-            if hpos < horr and hpos > hor and vpos < verr and vpos > ver then 
+            if hpos < horr and hpos > hsp and vpos < verr and vpos > vsp then 
                 s_drawGameOver <= '1';
             else
                 s_drawGameOver <= '0'; 

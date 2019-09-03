@@ -61,7 +61,7 @@ entity clk_divider is
   variable cnt1 : integer range 0 to 10_000_000:=0;
   begin 
       if (rising_edge (CLK)) then
-          if(cnt1 < 5_000_000) then 
+          if(cnt1 < 7_500_000) then 
               cnt1 := cnt1 +1;
            else
               clk_mb <= not clk_mb;
